@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .paper-journal-bg {
+    /* The base color of the paper */
+    background-color: #dccfb2; 
+    
+    /* Layer 1: Subtle fiber/grain | Layer 2: The actual crumples */
+    background-image: 
+      url('https://www.transparenttextures.com/patterns/pinstriped-suit.png'), 
+      url('https://www.transparenttextures.com/patterns/crumpled-paper.png');
+    
+    /* This makes the wrinkles look like real shadows on the brown */
+    background-blend-mode: multiply;
+    background-size: 300px;
+    background-repeat: repeat;
+  }
+}

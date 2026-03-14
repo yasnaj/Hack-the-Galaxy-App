@@ -1,0 +1,47 @@
+.mood-standard-btn {
+  /* Layout & Size */
+  width: 100%;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Aesthetics */
+  background-color: #44311f; /* Matching your heading color */
+  color: #fdfbf7;
+  border: none;
+  border-radius: 12px; /* Slightly rounded */
+  
+  /* Typography */
+  font-family: serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  
+  /* Interactivity */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover State: Lightens slightly and lifts */
+.mood-standard-btn:hover:not(:disabled) {
+  background-color: #5a422d;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Active State: The "Click" feedback */
+.mood-standard-btn:active:not(:disabled) {
+  background-color: #362719;
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Disabled State: Clean and muted */
+.mood-standard-btn:disabled {
+  background-color: #e5e1d8;
+  color: #a39f94;
+  cursor: not-allowed;
+}
