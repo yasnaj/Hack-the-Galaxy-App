@@ -8,13 +8,14 @@ export default function UploadButton({ onUpload }: UploadButtonProps) {
   const [isCameraOpen, setIsCameraOpen] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  
 
   // 1. Start the Camera Stream
   const startCamera = async () => {
     setIsCameraOpen(true)
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'user' }, // Use 'environment' for back camera
+        video: { facingMode: 'user' },
         audio: false 
       })
       if (videoRef.current) videoRef.current.srcObject = stream
@@ -24,7 +25,7 @@ export default function UploadButton({ onUpload }: UploadButtonProps) {
     }
   }
 
-  // 2. Capture the Frame
+  // 2. Capture the Frame (Already uses Base64)
   const takePhoto = () => {
     if (videoRef.current && canvasRef.current) {
       const context = canvasRef.current.getContext('2d')
@@ -44,15 +45,30 @@ export default function UploadButton({ onUpload }: UploadButtonProps) {
     setIsCameraOpen(false)
   }
 
+  // 3. NEW: Handle File Upload with Base64 conversion
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const base64String = reader.result as string
+        onUpload(base64String) // Persistent data that won't break on page navigation
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
   return (
     <div className="flex gap-4 relative">
       {/* Choice Buttons */}
       <label className="cursor-pointer bg-white/90 p-4 rounded-full shadow-xl hover:scale-110 transition-all border border-black/5">
         <ImageIcon size={24} className="text-[#8c6d4f]" />
-        <input type="file" accept="image/*" onChange={(e) => {
-          const file = e.target.files?.[0];
-          if(file) onUpload(URL.createObjectURL(file))
-        }} className="hidden" />
+        <input 
+          type="file" 
+          accept="image/*" 
+          onChange={handleFileChange} 
+          className="hidden" 
+        />
       </label>
 
       <button onClick={startCamera} className="bg-white/90 p-4 rounded-full shadow-xl hover:scale-110 transition-all border border-black/5">
@@ -73,7 +89,7 @@ export default function UploadButton({ onUpload }: UploadButtonProps) {
               <div className="w-14" /> {/* Spacer */}
             </div>
           </div>
-          <p className="mt-4 text-white/60 font-serif italic text-sm italic">Capture a new fragment...</p>
+          <p className="mt-4 text-white/60 font-serif italic text-sm">Capture a new fragment...</p>
         </div>
       )}
     </div>

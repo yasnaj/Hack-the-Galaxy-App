@@ -3,6 +3,7 @@ import { useState, useRef } from 'react' // 1. Added useRef here
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react' 
 import UploadButton from './UploadButton'
+import { useRouter } from 'next/navigation'
 import './styles.css'
 interface PinnedFragment {
   id: number
@@ -13,6 +14,22 @@ interface PinnedFragment {
 }
 
 export default function InputUploadPage() {
+  // Inside your first page component
+  const [images, setImages] = useState<string[]>(Array(10).fill(""))
+
+  const handleUpload = (url: string, index: number) => {
+    setImages((prevImages) => {
+      // 1. Create the new array based on the previous state
+      const updated = [...prevImages];
+      updated[index] = url;
+      
+      // 2. Save THIS specific updated array to LocalStorage
+      localStorage.setItem('vibe_images', JSON.stringify(updated));
+      
+      return updated;
+    });
+  };
+  const router = useRouter()
   const [fragments, setFragments] = useState<PinnedFragment[]>([])
   const GOAL = 10
   
@@ -55,8 +72,8 @@ export default function InputUploadPage() {
             <button 
                 className="mood-standard-btn"
                 onClick={() => {
-                // Add your logic here, e.g., triggering a modal or a save function
-                console.log("Generating mood archive...");
+                  // This sends the user to the output page
+                  router.push('/output_generation')
                 }}
                 // The button stays disabled until your goal of 10 is reached
                 disabled={fragments.length < GOAL}

@@ -1,0 +1,23 @@
+/* app/output_generation/styles.css */
+
+.paper-texture {
+  background-image: url("https://www.transparenttextures.com/patterns/p6.png");
+  /* This creates that subtle grainy paper feel */
+}
+
+.font-handwriting {
+  /* Using a generic cursive fallback; ideally, import 'Caveat' from Google Fonts */
+  font-family: 'Cursive', 'Brush Script MT', handwriting;
+  letter-spacing: -1px;
+}
+
+/* Custom shadow for the "stacked" photo look */
+.scrapbook-shadow {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 
+              0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* Background for the page if the Tailwind classes aren't enough */
+.bg-cream {
+  background-color: #f8f5f0;
+}
